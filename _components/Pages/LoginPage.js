@@ -1,8 +1,8 @@
 import React from 'react';
+import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-native';
-import { connect } from 'react-redux';
 
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableHighlight, StyleSheet, Dimensions } from 'react-native';
 
 // import { userActions } from '../../_actions';
 
@@ -41,6 +41,10 @@ class LoginPage extends React.Component {
     //     }
     // }
 
+    login() {
+        console.log('trying to login');
+    }
+
     render() {
         //const { loggingIn, alert } = this.props;
         //const { username, password, submitted } = this.state;
@@ -48,16 +52,14 @@ class LoginPage extends React.Component {
             <View style={styles.wrapper}>
                 <View style={styles.container}>
                     <View style={styles.form}>
-                        <Text>Loogin page.</Text>
-                        <Link to="/"><Text>HOME</Text></Link>
-{/*                        <Button
-                          raised
-                          icon={{name: 'home', size: 32}}
-                          buttonStyle={{backgroundColor: 'red', borderRadius: 10}}
-                          textStyle={{textAlign: 'center'}}
-                          title={`Welcome to\nReact Native Elements`}
-                        />*/}
+                        <Field name="username" component={usernameInput} />
+                        <Field name="password" component={passwordInput} />
+                        <TouchableHighlight style={styles.button} onPress={this.login}>
+                            <Text style={{textAlign:'center',color:'#ffffff',fontSize:14}}>LOGIN</Text>
+                        </TouchableHighlight>
                     </View>
+
+                    <Link to="/"><Text style={{fontSize:20}}>HOME</Text></Link>
                 </View>
 {/*
                     <form name="form" id="login_form" className="form-signin" onSubmit={this.handleSubmit}>
@@ -80,39 +82,53 @@ class LoginPage extends React.Component {
         );
     }
 }
-let ScreenHeight = Dimensions.get('window').height;
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: '#76b852',
-    height: ScreenHeight
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  form: {
-    backgroundColor: '#ffffff',
-    width: 360,
-    paddingTop: 45,
-    paddingBottom: 45,
-    paddingLeft: 35,
-    paddingRight: 35
-  }
-});
 
-function mapStateToProps(state) {
-    // const { loggingIn } = state.authentication;
-    // const { alert } = state;
-    // return {
-    //     loggingIn,
-    //     alert
-    // };
-    return state;
+const usernameInput = ({ input: { onChange, ...restInput }}) => {
+    return <TextInput style={styles.text_input} placeholder="Username" placeholderTextColor="#c5c5c5" underlineColorAndroid="transparent" onChangeText={onChange} {...restInput} />
+}
+const passwordInput = ({ input: { onChange, ...restInput }}) => {
+    return <TextInput style={styles.text_input} placeholder="Password" placeholderTextColor="#c5c5c5" underlineColorAndroid="transparent" secureTextEntry={true} onChangeText={onChange} {...restInput} />
 }
 
-const connectedLoginPage = connect(mapStateToProps)(LoginPage);
-export { connectedLoginPage as LoginPage };
+let ScreenHeight = Dimensions.get('window').height;
+const styles = StyleSheet.create({
+    wrapper: {
+        backgroundColor: '#76b852',
+        height: ScreenHeight
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    form: {
+        backgroundColor: '#ffffff',
+        width: 320,
+        paddingTop: 45,
+        paddingBottom: 45,
+        paddingLeft: 35,
+        paddingRight: 35
+    },
+    text_input: {
+        backgroundColor: 'rgba(0,0,0,0.05)',
+        borderRadius: 6,
+        fontSize: 14,
+        marginBottom: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        color: '#0f0f0f',
+        textAlign: 'center'
+    },
+    button: {
+        backgroundColor: '#4CAF50',
+        padding: 15,
+        borderRadius: 6
+    }
+});
 
+const connectedLoginPage = reduxForm({
+    form: 'login'
+})(LoginPage);
+export { connectedLoginPage as LoginPage };
 

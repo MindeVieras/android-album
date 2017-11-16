@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { View, Text, TouchableOpacity, TextInput, CheckBox, Picker, StyleSheet } from 'react-native';
+import { View, Text, TextInput, CheckBox, Picker, StyleSheet } from 'react-native';
 
 import { headerActions, footerActions } from '../../_actions';
 
@@ -49,12 +49,6 @@ const accessLevelInput = ({ input: { onChange, ...restInput }}) => {
 }
 
 const styles = StyleSheet.create({
-    // label: {
-    //     color: '#ffffff',
-    //     marginLeft: 10,
-    //     marginRight: 10,
-    //     marginBottom: 5
-    // },
     text_input: {
         backgroundColor: 'rgba(0,0,0,0.25)',
         borderRadius: 3,
